@@ -1,6 +1,10 @@
 __author__ = 'Harmen'
 
 import numpy as np
+import pandas
+import matplotlib as plot
+import seaborn
+
 # Exercise 1.1.1
 # Setting up the given values
 x_b = np.array([0,0])
@@ -25,7 +29,10 @@ mu_t = np.random.multivariate_normal(mu_p, Sigma_p)
 
 # Exercise 1.1.3
 # Building a 3D plot of P_a|b
-
+P_dist = np.random.multivariate_normal(mean=mu_p, cov=Sigma_p, size=1000)
+pandas.DatFrame(P_dist, columns=["X", "Y"])
+plot.rc("figure", figzise=(6, 6))
+seaborn.kdeplot(P_dist)
 
 # Exercise 1.2.1
 # Define variance
