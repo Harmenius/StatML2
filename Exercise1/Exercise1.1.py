@@ -20,5 +20,16 @@ Sigma_p = np.linalg.inv(Lambda_tilde[0:2,0:2])
 mu_p = Sigma_p.dot(Lambda['aa'].dot(mu[:2]) - Lambda['ab'].dot(x_b - mu[2:]))
 
 # Exercise 1.1.2
+# Sample from P_a|b
 mu_t = np.random.multivariate_normal(mu_p, Sigma_p)
-print mu_t
+
+# Exercise 1.1.3
+# Building a 3D plot of P_a|b
+
+
+# Exercise 1.2.1
+# Define variance
+Sigma_t = np.array([[2.0, 0.8], [0.8, 4.0]])
+
+# Draw samples
+x = np.random.multivariate_normal(mu_t, Sigma_t)
