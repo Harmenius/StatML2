@@ -9,7 +9,7 @@ Sigma_tilde = np.array([ [ 0.14,-0.30, 0.00, 0.20]
                         ,[ 0.00, 0.20, 1.00, 1.00]
                         ,[ 0.20,-0.80, 1.00, 2.00]])
 Lambda_tilde = np.linalg.inv(Sigma_tilde)
-Covariance_alb = np.linalg.inv(Lambda_tilde[0:2,0:2])
+Sigma_p = np.linalg.inv(Lambda_tilde[0:2,0:2])
 
 
-print Covariance_alb
+print Sigma_p
