@@ -3,6 +3,7 @@ __author__ = 'Harmen'
 import numpy as np
 import pandas
 import matplotlib.pyplot as plot
+from numpy.linalg import inv
 import seaborn
 
 # Exercise 1.1.1
@@ -42,6 +43,24 @@ Sigma_t = np.array([[2.0, 0.8], [0.8, 4.0]])
 x = np.random.multivariate_normal(mu_t, Sigma_t, size=1000)
 np.savetxt("sample1.txt", x)
 
+# Exercise 1.2.2
 # Compute Maximum Likelihood
 mu_ML = np.mean(x,0)
 Sigma_ML = np.mean(np.array([[x[:,0]*x[:,0], x[:,0]*x[:,1]], [x[:,1]*x[:,0], x[:,1]*x[:,1]]]).T, 0)
+
+# Exercise 1.3.1
+# Iteratively estimate Most Likely mean
+mu_MLi = np.zeros(x.shape) # i stands for iterated
+for i, x_i in enumerate(x):
+    mu_MLi[i] = mu_MLi[i-1] + (x_i - mu_MLi[i-1])/(i+1) # Only works for first iteration because last x is zero
+
+# Exercise 1.3.2
+prior = {'mu': mu_p, 'var': Sigma_p}
+post = np.repeat({'mu': np.zeros(x.shape[1]), 'var': np.zeros(x.shape[1]**2)}, x.shape[0])
+post[-1] = prior # So the first iteration takes the prior into account
+for i,x_i in enumerate(x):
+    post[i]['var'] = inv(inv(post[i-1]['var']) + inv(Sigma_t))
+    post[i]['mu'] = post[i]['var'].dot(
+        inv(Sigma_t).dot(x_i) + inv(post[i-1]['var']).dot(post[i-1]['mu']))
+
+print post[-1]['mu'], mu_t
